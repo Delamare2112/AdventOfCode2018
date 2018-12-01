@@ -10,7 +10,7 @@ def part1(path):
 
 
 def part2(path):
-    frequencies = [0]
+    frequencies = {}
     frequency = 0
     while True:
         with open(path) as file:
@@ -19,7 +19,7 @@ def part2(path):
                 if frequency in frequencies:
                     print(frequency)
                     return
-                frequencies.append(frequency)
+                frequencies[frequency] = True
 
 
 if __name__ == "__main__":
