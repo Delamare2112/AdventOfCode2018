@@ -21,7 +21,7 @@ fn get_input() -> String {
     contents
 }
 
-fn day_1(input: &String) -> usize {
+fn part_1(input: &String) -> usize {
     let mut two = 0;
     let mut three = 0;
 
@@ -43,8 +43,41 @@ fn day_1(input: &String) -> usize {
     two * three
 }
 
+fn score(x: &str, y: &str) -> usize {
+    let mut ret = 0;
+    for (i, c) in x.chars().enumerate() {
+        if y.chars().nth(i).unwrap() == c {
+            ret += 1;
+        }
+    }
+    ret
+}
+
+fn drop_diff(x: &str, y: &str) -> String {
+    let mut ret = String::new();
+    for (i, c) in x.chars().enumerate() {
+        if y.chars().nth(i).unwrap() == c {
+            ret.push(c);
+        }
+    }
+    ret
+}
+
+fn part_2(input: &String) -> String {
+    let target_score = input.lines().next().unwrap().len() - 1;
+    for (s_i, s_l) in input.lines().enumerate() {
+        for line in input.lines().skip(s_i) {
+            if score(s_l, line) == target_score {
+                return drop_diff(s_l, line);
+            }
+        }
+    }
+    String::new()
+}
+
 fn main() {
     let input = get_input();
 
-    println!("Part 1 = {}", day_1(&input));
+    println!("Part 1 = {}", part_1(&input));
+    println!("Part 2 = {}", part_2(&input));
 }
