@@ -72,7 +72,7 @@ fn part_2(input: &String) -> String {
             }
         }
     }
-    String::new()
+    panic!("AHHHHHHH!!!!!!!")
 }
 
 fn main() {
