@@ -1,0 +1,8 @@
+[package]
+name = "day_3"
+version = "0.1.0"
+authors = ["Trevor Berninger <Baladashman@gmail.com>"]
+
+[dependencies]
+argparse = "0.2.2"
+regex = "1.1.0"
