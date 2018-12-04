@@ -48,19 +48,17 @@ fn input_to_claims(input: &String) -> Vec<Claim> {
         });
     }
 
-    println!("{:?}", ret);
-
     ret
 }
 
 fn part_1(claims: &Vec<Claim>) -> usize {
     let mut overlaps = 0;
-    let mut grid = vec![vec![Vec::new(); 10]; 10];
+    let mut grid = vec![vec![Vec::new(); 10000]; 10000];
 
     for claim in claims.iter() {
         for y in grid.iter_mut().skip(claim.y).take(claim.h) {
             for x in y.iter_mut().skip(claim.x).take(claim.w) {
-                if !x.is_empty() {
+                if x.len() == 1 {
                     overlaps += 1;
                 }
                 x.push(claim.id);
@@ -68,24 +66,8 @@ fn part_1(claims: &Vec<Claim>) -> usize {
         }
     }
 
-
-    for x in grid.iter() {
-        for y in x.iter() {
-            if y.is_empty() {
-                print!(".");
-            }
-            else if y.len() == 1 {
-                print!("{}", y[0]);
-            }
-            else {
-                print!("X");
-            }
-        }
-        println!();
-    }
-
     overlaps
-} // 143468 is too high...
+}
 
 fn part_2(claims: &Vec<Claim>) -> usize {
     0
