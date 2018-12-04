@@ -1,3 +1,5 @@
+#![feature(vec_remove_item)]
+
 extern crate argparse;
 extern crate regex;
 
@@ -70,7 +72,24 @@ fn part_1(claims: &Vec<Claim>) -> usize {
 }
 
 fn part_2(claims: &Vec<Claim>) -> usize {
-    0
+    let mut claim_ids: Vec<usize> = (1..claims.len()+1).collect();
+    let mut grid = vec![vec![Vec::new(); 10000]; 10000];
+
+    for claim in claims.iter() {
+        for y in grid.iter_mut().skip(claim.y).take(claim.h) {
+            for x in y.iter_mut().skip(claim.x).take(claim.w) {
+                if !x.is_empty() {
+                    claim_ids.remove_item(&claim.id);
+                    for id in x.iter() {
+                        claim_ids.remove_item(&id);
+                    }
+                }
+                x.push(claim.id);
+            }
+        }
+    }
+
+    claim_ids[0]
 }
 
 fn main() {
