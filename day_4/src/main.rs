@@ -8,7 +8,7 @@ use regex::Regex;
 
 use std::io::prelude::*;
 use std::fs::File;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, HashMap};
 
 fn get_input() -> (Option<usize>, String) {
     let mut path = String::new();
@@ -40,6 +40,77 @@ struct Event {
     guard: Option<usize>
 }
 
+struct Day {
+    guard: usize,
+    times: [bool; 60]
+}
+
+fn events_to_grid(events: &BTreeMap<i64, Event>) -> Vec<Day> {
+    let mut days = Vec::new();
+
+    let first_event = events.iter().next().unwrap();
+//    let mut current_date = Utc.timestamp(*first_event.0);
+    let mut current_day = Day {guard: first_event.1.guard.unwrap(), times: [false; 60]};
+    let mut sleep_start = 59;
+    for (time, event) in events.iter().skip(1) {
+        if event.t == EventType::StartShift {
+            days.push(current_day);
+            current_day = Day {guard: event.guard.unwrap(), times: [false; 60]};
+        }
+        else if event.t == EventType::FallAsleep {
+            sleep_start = Utc.timestamp(*time, 0).minute();
+        }
+        else if event.t == EventType::Wakeup {
+            for i in sleep_start..Utc.timestamp(*time, 0).minute() {
+                current_day.times[i as usize] = true;
+            }
+        }
+    }
+    days.push(current_day);
+
+    days
+}
+
+fn get_sleepiest_guard(grid: &Vec<Day>) -> usize {
+    let mut guard_counts = HashMap::new();
+    let mut sleepiest_guard = 0;
+    let mut sleepiest_guard_time = 0;
+    for day in grid.iter() {
+        let guard = guard_counts.entry(day.guard).or_insert(0);
+        *guard += day.times.iter().filter(|x| **x).count();
+        if *guard > sleepiest_guard_time {
+            sleepiest_guard = day.guard;
+            sleepiest_guard_time = *guard;
+        }
+    }
+    sleepiest_guard
+}
+
+fn output_days(days: &Vec<Day>) {
+    print!("     ");
+    for i in 0..6 {
+        for _ in 0..10 {
+            print!("{}", i);
+        }
+    }
+    println!();
+    print!("     ");
+    for _ in 0..6 {
+        for i in 0..10 {
+            print!("{}", i);
+        }
+    }
+    println!();
+    for day in days.iter() {
+        print!("{}   ", day.guard);
+        for b in day.times.iter() {
+            let val = if *b {'#'} else {'.'};
+            print!("{}", val);
+        }
+        println!();
+    }
+}
+
 fn parse_input(input: &String) -> BTreeMap<i64, Event> {
     let mut collection = BTreeMap::new();
 
@@ -64,5 +135,9 @@ fn parse_input(input: &String) -> BTreeMap<i64, Event> {
 
 fn main() {
     let (part, input) = get_input();
-    println!("{:?}", parse_input(&input));
+    let events = parse_input(&input);
+    let days = events_to_grid(&events);
+    println!("{:?}", &events);
+    output_days(&days);
+    println!("sleepiest = {:?}", get_sleepiest_guard(&days));
 }
