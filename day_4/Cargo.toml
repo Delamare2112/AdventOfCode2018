@@ -1,0 +1,10 @@
+[package]
+name = "day_4"
+version = "0.1.0"
+authors = ["Trevor Berninger <trevor@lightfieldlab.com>"]
+edition = "2018"
+
+[dependencies]
+argparse = "0.2.2"
+chrono = "0.4.6"
+regex = "1.1.0"
