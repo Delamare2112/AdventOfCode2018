@@ -133,11 +133,24 @@ fn parse_input(input: &String) -> BTreeMap<i64, Event> {
     collection
 }
 
+fn part_1(days: &Vec<Day>) -> usize {
+    let sleepiest_guard = get_sleepiest_guard(&days);
+    let mut mintues = [0usize; 60];
+    for day in days.iter().filter(|x| x.guard == sleepiest_guard) {
+        for min in day.times.iter().enumerate().filter(|x| *x.1).map(|x| x.0) {
+            mintues[min] += 1;
+        }
+    }
+    let best_minute = mintues.iter().max().unwrap();
+    println!("Best minute: {}", best_minute);
+    best_minute * sleepiest_guard
+}
+
 fn main() {
     let (part, input) = get_input();
     let events = parse_input(&input);
     let days = events_to_grid(&events);
     println!("{:?}", &events);
     output_days(&days);
-    println!("sleepiest = {:?}", get_sleepiest_guard(&days));
+    println!("part1 = {:?}", part_1(&days));
 }
