@@ -141,8 +141,8 @@ fn part_1(days: &Vec<Day>) -> usize {
             mintues[min] += 1;
         }
     }
-    let best_minute = mintues.iter().max().unwrap();
-    println!("Best minute: {}", best_minute);
+    let best_minute = mintues.iter().enumerate().max_by(|a,b| a.1.cmp(b.1)).unwrap().0;
+//    println!("Best minute: {}", best_minute);
     best_minute * sleepiest_guard
 }
 
@@ -150,7 +150,7 @@ fn main() {
     let (part, input) = get_input();
     let events = parse_input(&input);
     let days = events_to_grid(&events);
-    println!("{:?}", &events);
-    output_days(&days);
+//    println!("{:?}", &events);
+//    output_days(&days);
     println!("part1 = {:?}", part_1(&days));
 }
