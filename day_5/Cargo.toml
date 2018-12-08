@@ -1,0 +1,8 @@
+[package]
+name = "day_5"
+version = "0.1.0"
+authors = ["Trevor Berninger <trevor@lightfieldlab.com>"]
+edition = "2018"
+
+[dependencies]
+argparse = "0.2.2"
