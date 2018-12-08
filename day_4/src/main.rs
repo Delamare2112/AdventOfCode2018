@@ -86,7 +86,7 @@ fn get_sleepiest_guard(grid: &Vec<Day>) -> usize {
     sleepiest_guard
 }
 
-fn output_days(days: &Vec<Day>) {
+fn _output_days(days: &Vec<Day>) {
     print!("     ");
     for i in 0..6 {
         for _ in 0..10 {
@@ -141,16 +141,31 @@ fn part_1(days: &Vec<Day>) -> usize {
             mintues[min] += 1;
         }
     }
-    let best_minute = mintues.iter().enumerate().max_by(|a,b| a.1.cmp(b.1)).unwrap().0;
-//    println!("Best minute: {}", best_minute);
+    let best_minute = mintues.iter().enumerate().max_by(|(_,a),(_,b)| a.cmp(b)).unwrap().0;
     best_minute * sleepiest_guard
+}
+
+fn part_2(days: &Vec<Day>) -> usize {
+    let mut guards_times: HashMap<usize, Vec<usize>> = HashMap::new();
+    for day in days.iter() {
+        let entry = guards_times.entry(day.guard).or_insert(vec![0; 60]);
+        for min in day.times.iter().enumerate().filter(|(_,x)|**x).map(|(x,_)|x) {
+            entry[min] += 1;
+        }
+    }
+    let (guard, times) = guards_times.iter().max_by(|(_,a),(_,b)| a.iter().max().unwrap().cmp(b.iter().max().unwrap())).unwrap();
+    let minute = times.iter().enumerate().max_by(|(_,a),(_,b)| a.cmp(b)).unwrap().0;
+    guard * minute
 }
 
 fn main() {
     let (part, input) = get_input();
     let events = parse_input(&input);
     let days = events_to_grid(&events);
-//    println!("{:?}", &events);
-//    output_days(&days);
-    println!("part1 = {:?}", part_1(&days));
+    if part.unwrap_or(1) == 1 {
+        println!("part1 = {:?}", part_1(&days));
+    }
+    if part.unwrap_or(2) == 2 {
+        println!("part2 = {:?}", part_2(&days));
+    }
 }
