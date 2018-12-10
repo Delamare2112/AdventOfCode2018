@@ -62,12 +62,10 @@ fn part_1_without_char(polymer: String, c: char) -> usize {
 }
 
 fn part_2(polymer: String) -> usize {
-    let x = (97u8..123).min_by(|a, b| {
-        part_1_without_char(polymer.clone(), *a as char)
-            .cmp(&part_1_without_char(polymer.clone(), *b as char))
-    });
-
-    part_1_without_char(polymer.clone(), x.unwrap() as char)
+    (97u8..123)
+        .map(|x| part_1_without_char(polymer.clone(), x as char))
+        .min()
+        .unwrap()
 }
 
 fn main() {
