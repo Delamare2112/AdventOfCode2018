@@ -53,10 +53,30 @@ fn part_1(polymer: String) -> usize {
     polymer.len()
 }
 
+fn part_1_without_char(polymer: String, c: char) -> usize {
+    part_1(
+        polymer
+            .replace(c as char, "")
+            .replace((c as char).to_uppercase().next().unwrap(), ""),
+    )
+}
+
+fn part_2(polymer: String) -> usize {
+    let x = (97u8..123).min_by(|a, b| {
+        part_1_without_char(polymer.clone(), *a as char)
+            .cmp(&part_1_without_char(polymer.clone(), *b as char))
+    });
+
+    part_1_without_char(polymer.clone(), x.unwrap() as char)
+}
+
 fn main() {
     let (part, input) = get_input();
 
     if part.unwrap_or(1) == 1 {
         println!("part1: {}", part_1(input.clone()));
+    }
+    if part.unwrap_or(2) == 2 {
+        println!("part2: {}", part_2(input.clone()));
     }
 }
