@@ -75,7 +75,7 @@ fn part_1(input: String) -> usize {
 
 fn part_2(input: String) -> usize {
     let input = parse_input(input);
-    let max_total_distance = 32;
+    let max_total_distance = 10000;
     let bounds = Point {
         x: input.iter().map(|x| x.x).max().unwrap(),
         y: input.iter().map(|x| x.y).max().unwrap(),
