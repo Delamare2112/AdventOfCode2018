@@ -73,8 +73,24 @@ fn part_1(input: String) -> usize {
         .unwrap()
 }
 
-fn part_2(input: String) -> String {
-    String::new()
+fn part_2(input: String) -> usize {
+    let input = parse_input(input);
+    let max_total_distance = 32;
+    let bounds = Point {
+        x: input.iter().map(|x| x.x).max().unwrap(),
+        y: input.iter().map(|x| x.y).max().unwrap(),
+    };
+    let mut size = 0;
+    for y in 0..bounds.y + 1 {
+        for x in 0..bounds.x + 1 {
+            let p = Point { x, y };
+            let total_distance: usize = input.iter().map(|x| taxi_dist(x, &p)).sum();
+            if total_distance < max_total_distance {
+                size += 1;
+            }
+        }
+    }
+    size
 }
 
 fn main() {
