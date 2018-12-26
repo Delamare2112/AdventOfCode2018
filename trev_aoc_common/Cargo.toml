@@ -1,9 +1,8 @@
 [package]
-name = "day_5"
+name = "trev_aoc_common"
 version = "0.1.0"
 authors = ["Trevor Berninger <trevor@lightfieldlab.com>"]
 edition = "2018"
 
 [dependencies]
 argparse = "0.2.2"
-trev_aoc_common = { path = "../trev_aoc_common" }
