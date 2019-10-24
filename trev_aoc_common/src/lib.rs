@@ -28,7 +28,7 @@ pub fn get_input() -> (Option<usize>, String) {
     (part, contents)
 }
 
-pub fn run<A: Display, B: Display>(part_1: &Fn(String) -> A, part_2: &Fn(String) -> B) {
+pub fn run<A: Display, B: Display>(part_1: &dyn Fn(String) -> A, part_2: &dyn Fn(String) -> B) {
     let (part, input) = get_input();
 
     if part.unwrap_or(1) == 1 {

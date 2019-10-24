@@ -1,0 +1,11 @@
+[package]
+name = "day_7"
+version = "0.1.0"
+authors = ["delamare"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+trev_aoc_common = {path = "../trev_aoc_common"}
+regex = "1.1.0"
