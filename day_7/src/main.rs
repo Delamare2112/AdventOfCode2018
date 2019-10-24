@@ -44,8 +44,7 @@ impl Available {
         ret
     }
     fn remove(&mut self, key: char) -> Vec<char> {
-        let current = self.steps.get_mut(&key).unwrap();
-        current.done = true;
+        self.steps.get_mut(&key).unwrap().done = true;
         self.vector
             .remove(self.vector.iter().position(|c| c == &key).unwrap());
         let new_values: Vec<char> = self
